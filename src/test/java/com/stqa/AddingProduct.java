@@ -26,7 +26,7 @@ public class AddingProduct extends TestBase {
         driver.findElement(By.xpath("//input[@name='quantity']")).sendKeys("100");
         File file = new File("src/test/resources/MacBookPro.jpg");
         String absolutepath = String.valueOf(file.getAbsoluteFile());
-        driver.findElement(By.xpath("//input[@name='date_valid_from']")).sendKeys(absolutepath);
+        driver.findElement(By.xpath("//input[@name='new_images[]']")).sendKeys(absolutepath);
         driver.findElement(By.xpath("//input[@name='date_valid_from']")).sendKeys("05.05.2020");
         driver.findElement(By.xpath("//input[@name='date_valid_to']")).sendKeys("05.05.2021");
 
