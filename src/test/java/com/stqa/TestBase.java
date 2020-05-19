@@ -2,11 +2,16 @@ package com.stqa;
 
 import com.google.common.io.Files;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
@@ -21,6 +26,7 @@ public class TestBase {
     public static ThreadLocal<EventFiringWebDriver> tlDriver = new ThreadLocal<>();
     public EventFiringWebDriver driver;
     public WebDriverWait wait;
+    public BrowserMobProxy proxy;
     public String browser = "CHROME";
 
     public static class MyListener extends AbstractWebDriverEventListener {
@@ -54,10 +60,17 @@ public class TestBase {
             wait = new WebDriverWait(driver, 10);
             return;
         }
+
+        proxy = new BrowserMobProxyServer();
+        proxy.start(0);
+        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+
         switch (browser) {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
-                driver = new EventFiringWebDriver(new ChromeDriver());
+                driver = new EventFiringWebDriver(new ChromeDriver(capabilities));
                 break;
             case "FIREFOX":
                 WebDriverManager.firefoxdriver().setup();
