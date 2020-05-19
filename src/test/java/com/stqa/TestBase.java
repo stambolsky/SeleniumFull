@@ -1,11 +1,10 @@
 package com.stqa;
 
+import com.google.common.io.Files;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -13,6 +12,8 @@ import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
@@ -36,6 +37,13 @@ public class TestBase {
         @Override
         public void onException(Throwable throwable, WebDriver driver) {
             System.out.println(throwable);
+            File tempFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            try {
+                Files.copy(tempFile, new File("screen.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(tempFile);
         }
     }
 
