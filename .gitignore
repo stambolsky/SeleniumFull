@@ -171,3 +171,5 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 /chromedriver
+
+.png
