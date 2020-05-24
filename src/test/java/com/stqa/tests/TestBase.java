@@ -1,4 +1,4 @@
-package com.stqa;
+package com.stqa.tests;
 
 import com.google.common.io.Files;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -81,10 +81,10 @@ public class TestBase {
                 break;
         }
         driver.register(new MyListener());
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 20);
     }
 
     @After

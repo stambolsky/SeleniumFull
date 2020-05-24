@@ -1,17 +1,17 @@
-package com.stqa;
+package com.stqa.tests;
 
+import com.stqa.pages.Navigation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
 public class Authorization extends TestBase {
 
+    Navigation navigation = new Navigation(driver);
+
     @Test
     public void testAuthorization() {
-        driver.get("http://localhost:8888/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
+        navigation.logInAsAdmin();
         Assert.assertTrue("Авторизация не выполнена",driver.findElement(By.cssSelector("a[title='Logout']")).isDisplayed());
     }
 }
